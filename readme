@@ -1,0 +1,30 @@
+# 🧰 Ansible - Déploiement centralisé des dépôts DevOps
+
+## 🎯 Objectif du projet
+
+Ce dépôt contient un playbook **Ansible** conçu pour **automatiser le déploiement de l’environnement DevOps** sur plusieurs machines.
+
+Il complète les deux projets précédents :
+- 🔗 [Projet DevOps - Infrastructure & Scripts (GitHub)](https://github.com/Bloraze/Dossier-DevOps)  
+- 🔗 [Projet CI/CD - GitLab Pipeline](https://gitlab.com/Bloraze/CI-CD)
+
+## 📦 Contenu
+
+- `clone-projet.yml` : Playbook principal  
+- Crée un dossier `~/Projet` sur la machine cible  
+- Clone les deux dépôts automatiquement
+
+## 🖥️ Cas d’usage
+
+Ce projet a été pensé pour un **environnement de salle de classe ou de formation**, avec plusieurs machines à configurer rapidement :
+
+- Chaque machine peut être préconfigurée avec un **nom d’hôte unique** (`dev01`, `dev02`, etc.)  
+- On peut **envoyer ce dépôt Ansible** sur chaque machine  
+- Puis exécuter le playbook localement pour déployer l’environnement en quelques secondes
+
+## 🚀 Utilisation
+
+```bash
+ansible -i hosts.yml all -m ping  -> test de ping sur tous les host
+
+ansible-playbook -i hosts.yml ./playbook/recurepo.yml    -> execute le fichier recurepo.yml sur les host 
