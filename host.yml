@@ -1,0 +1,9 @@
+all:
+  vars:
+    ansible_user: bob
+  children:
+    bikinibotom: 
+      hosts:
+       Crabcrutilliant:
+          ansible_host: 127.0.0.1
+# posibiliter de rajouter des host dans le group bikinibotom

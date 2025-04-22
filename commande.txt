@@ -1,0 +1,3 @@
+ansible -i hosts.yml all -m ping  -> test de ping sur tous les host
+
+ansible-playbook -i hosts.yml ./playbook/recurepo.yml    -> execute le fichier recurepo.yml sur les host 
