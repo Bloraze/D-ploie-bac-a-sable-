@@ -1,0 +1,9 @@
+- name: Déployer les pods NGINX + Monitoring
+  hosts: monitoring
+  become: true
+  tasks:
+    - name: Déployer Prometheus + Grafana + Nginx
+      shell: |
+        kubectl apply -f C:\Users\Maxime\Desktop\Projet\Ansible + cloud\playbook\k8s-manifests\prometheus.yaml
+        kubectl apply -f C:\Users\Maxime\Desktop\Projet\Ansible + cloud\playbook\k8s-manifests\grafana.yaml
+ 

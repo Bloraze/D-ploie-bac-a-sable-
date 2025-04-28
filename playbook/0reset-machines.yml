@@ -1,0 +1,16 @@
+- name: Réinitialiser toutes les machines
+  hosts: all
+  become: true
+  tasks:
+    - name: Supprimer Kubernetes, Docker, containerd et les résidus
+      shell: |
+        kubeadm reset -f || true
+        apt-get purge -y kubeadm kubectl kubelet kubernetes-cni containerd docker.io || true
+        apt-get autoremove -y || true
+        rm -rf /etc/kubernetes /var/lib/etcd /var/lib/kubelet /etc/cni /opt/cni /var/lib/containerd /etc/containerd
+      args:
+        executable: /bin/bash
+
+    - name: Redémarrer la machine
+      reboot:
+        reboot_timeout: 60

@@ -1,0 +1,7 @@
+- name: Joindre les workers au cluster
+  hosts: nginx
+  become: true
+  tasks:
+    - name: Joindre les noeuds au cluster
+      shell: |
+        kubeadm join 172.31.9.196:6443 --token xn4dwb.qikbnsu2781rostk  --discovery-token-ca-cert-hash sha256:fe17ad4d9d4df4a4aaacfd93e2d7ff5f086680e0206098107d1a205c1c1d4c49 --ignore-preflight-errors=all

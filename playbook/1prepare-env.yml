@@ -1,0 +1,26 @@
+- name: Préparer l'environnement Kubernetes
+  hosts: all
+  become: true
+  tasks:
+    - name: Créer le dossier keyrings
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Télécharger la clé publique Kubernetes
+      ansible.builtin.get_url:
+        url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
+        dest: /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+        mode: '0644'
+
+    - name: Ajouter le dépôt Kubernetes pour Ubuntu 24.04
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/kubernetes.list
+        content: |
+          deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /
+        mode: '0644'
+
+    - name: Mettre à jour le cache APT
+      ansible.builtin.apt:
+        update_cache: yes

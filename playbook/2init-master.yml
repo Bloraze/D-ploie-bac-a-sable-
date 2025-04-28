@@ -1,0 +1,26 @@
+- name: Initialiser le master
+  hosts: monitoring
+  become: true
+  tasks:
+    - name: Initialiser Kubernetes Master
+      ansible.builtin.shell: |
+        kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all
+      args:
+        executable: /bin/bash
+
+    - name: Configurer kubeconfig pour l'utilisateur ubuntu
+      become_user: ubuntu
+      ansible.builtin.shell: |
+        mkdir -p $HOME/.kube
+        cp /etc/kubernetes/admin.conf $HOME/.kube/config
+      args:
+        executable: /bin/bash
+
+    - name: Attendre 60 secondes pour la stabilisation
+      ansible.builtin.shell: sleep 60
+
+    - name: Installer Flannel (réseau Pod)
+      ansible.builtin.shell: |
+        kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+      args:
+        executable: /bin/bash

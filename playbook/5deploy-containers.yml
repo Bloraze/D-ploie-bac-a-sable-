@@ -1,0 +1,36 @@
+- name: Déployer un container sur chaque machine
+  hosts: all
+  become: true
+  tasks:
+    - name: Installer containerd
+      apt:
+        name: containerd
+        state: present
+        update_cache: yes
+
+    - name: Démarrer le service containerd
+      systemd:
+        name: containerd
+        state: started
+        enabled: true
+
+    - name: Télécharger l'image nginx
+      shell: |
+        ctr image pull docker.io/library/nginx:latest
+      args:
+        executable: /bin/bash
+
+    - name: Lancer un conteneur nginx
+      shell: |
+        ctr run -d --net-host docker.io/library/nginx:latest nginx-server
+      args:
+        executable: /bin/bash
+
+    - name: Vérifier les conteneurs actifs
+      shell: |
+        ctr containers list
+      register: containers
+
+    - name: Afficher la liste des conteneurs
+      debug:
+        var: containers.stdout_lines

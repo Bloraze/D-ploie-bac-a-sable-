@@ -1,0 +1,34 @@
+- name: Update apt cache
+  apt:
+    update_cache: yes
+
+- name: Mettre à jour tous les paquets installés
+  apt:
+    upgrade: dist
+    autoremove: yes
+    autoclean: yes
+
+- name: Install common tools
+  apt:
+    name:
+      - curl
+      - vim
+      - git
+      - nano
+      - net-tools
+      - nfs-common
+    state: present
+
+- name: Copier le script sur les machines distantes
+  copy:
+    src: install-prerequis.sh
+    dest: /tmp/install-prerequis.sh
+    mode: '0755'
+
+- name: Exécuter le script sur les machines distantes
+  command: sudo ./tmp/install-prerequis.sh
+
+- name: Supprimer le script après exécution
+  file:
+    path: /tmp/install-prerequis.sh
+    state: absent
